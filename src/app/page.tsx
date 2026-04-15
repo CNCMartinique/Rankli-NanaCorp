@@ -1,4 +1,4 @@
-import Link from "next/link";
+const STRIPE_PAYMENT_URL = "https://buy.stripe.com/fZu28sa5Cg1pgXgakPeOo2r";
 
 const plans = [
   {
@@ -13,7 +13,7 @@ const plans = [
       "Rapport PDF téléchargeable",
     ],
     cta: "Commencer gratuitement",
-    href: "#audit",
+    href: "#contact",
     highlighted: false,
   },
   {
@@ -30,7 +30,7 @@ const plans = [
       "Support par email",
     ],
     cta: "Choisir Starter",
-    href: "#starter",
+    href: STRIPE_PAYMENT_URL,
     highlighted: true,
   },
   {
@@ -48,7 +48,7 @@ const plans = [
       "Appel mensuel de 30 min",
     ],
     cta: "Démarrer Boost",
-    href: "#boost",
+    href: STRIPE_PAYMENT_URL,
     highlighted: false,
   },
 ];
@@ -66,7 +66,7 @@ export default function Home() {
             <a href="#contact" className="hover:text-gray-900">Contact</a>
           </nav>
           <a
-            href="#audit"
+            href="#contact"
             className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors"
           >
             Audit gratuit
@@ -89,7 +89,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="#audit"
+              href="#contact"
               className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors text-lg"
             >
               Audit gratuit en 2 minutes
@@ -230,7 +230,7 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section id="audit" className="py-16 px-4 bg-emerald-600">
+      <section id="contact" className="py-16 px-4 bg-emerald-600">
         <div className="max-w-2xl mx-auto text-center text-white">
           <h2 className="text-3xl font-bold mb-4">
             Prêt à attirer plus de clients locaux ?
@@ -248,7 +248,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer id="contact" className="py-8 px-4 bg-gray-900 text-gray-400 text-center text-sm">
+      <footer className="py-8 px-4 bg-gray-900 text-gray-400 text-center text-sm">
         <p>© 2024 Rankli — SEO local en Martinique. Tous droits réservés.</p>
         <p className="mt-1">
           <a href="mailto:contact@rankli.fr" className="hover:text-white">
