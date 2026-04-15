@@ -13,7 +13,7 @@ const plans = [
       "Rapport PDF téléchargeable",
     ],
     cta: "Commencer gratuitement",
-    href: "#contact",
+    href: "/audit",
     highlighted: false,
   },
   {
@@ -64,12 +64,13 @@ export default function Home() {
             <a href="#comment" className="hover:text-gray-900">Comment ça marche</a>
             <a href="#tarifs" className="hover:text-gray-900">Tarifs</a>
             <a href="#contact" className="hover:text-gray-900">Contact</a>
+            <a href="/audit" className="hover:text-emerald-600 font-medium text-emerald-600">Audit Gratuit</a>
           </nav>
           <a
-            href="#contact"
+            href="/audit"
             className="bg-emerald-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-emerald-700 transition-colors"
           >
-            Audit gratuit
+            Audit Express Gratuit
           </a>
         </div>
       </header>
@@ -89,7 +90,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href="#contact"
+              href="/audit"
               className="bg-emerald-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-emerald-700 transition-colors text-lg"
             >
               Audit gratuit en 2 minutes
@@ -239,7 +240,7 @@ export default function Home() {
             Commencez par un audit gratuit de votre visibilité locale. Résultats immédiats, aucune carte bancaire requise.
           </p>
           <a
-            href="mailto:contact@rankli.fr"
+            href="/audit"
             className="inline-block bg-white text-emerald-700 px-8 py-3 rounded-lg font-medium hover:bg-emerald-50 transition-colors text-lg"
           >
             Demander mon audit gratuit
