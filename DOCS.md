@@ -26,3 +26,17 @@
   - Dépendance ajoutée : `pg` + `@types/pg`
 - `src/app/page.tsx` : tous les CTA "audit gratuit" (header, hero, pricing card Audit Express, section CTA verte) pointent maintenant vers `/audit` au lieu de `#contact`.
 - Build vérifié OK localement, pushé sur `main`.
+
+## Changements du 2026-04-15 (SEO & Favicon)
+- `public/favicon.svg` : favicon SVG vert (#10b981) avec les lettres "RL" en blanc.
+- `public/favicon.ico` : favicon ICO 32x32 généré programmatiquement (même style).
+- `src/app/layout.tsx` : meta tags SEO mis à jour :
+  - `title` → "Rankli — Optimisation Google Business Profile en Martinique"
+  - `description` → texte SEO Martinique/GBP/IA
+  - `keywords` → SEO local Martinique, Google Business Profile Martinique, etc.
+  - `og:title` → "Rankli — SEO Local Automatisé en Martinique"
+  - `og:description` → texte court avec prix
+  - Référencement favicon via Next.js `metadata.icons` + balises `<link>` explicites dans `<head>`
+- `public/sitemap.xml` : sitemap avec `/` (priority 1.0) et `/audit` (priority 0.8).
+- `public/robots.txt` : `Allow: /` + référence au sitemap.
+- Pushé sur `main` → déploiement Vercel automatique.
