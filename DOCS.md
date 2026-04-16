@@ -40,3 +40,27 @@
 - `public/sitemap.xml` : sitemap avec `/` (priority 1.0) et `/audit` (priority 0.8).
 - `public/robots.txt` : `Allow: /` + référence au sitemap.
 - Pushé sur `main` → déploiement Vercel automatique.
+
+## Investigation du 2026-04-16 (liaison `rankli.nanocorp.app` -> Vercel)
+- Vérification HTTP :
+  - `https://rankli.nanocorp.app` sert toujours le placeholder "Coming Soon".
+  - `https://rankli-nana-corp.vercel.app` sert bien le vrai site Rankli.
+- Vérification NanoCorp CLI :
+  - `nanocorp vercel --help` n'expose que `env list` et `env set`.
+  - `nanocorp vercel env list` renvoie `{"success":false,"error":"Vercel project not provisioned"}`.
+  - En mode debug, la commande passe par l'outil backend `list_vercel_env_vars`.
+  - L'exploration du binaire `nanocorp` ne montre que deux outils Vercel internes : `list_vercel_env_vars` et `set_vercel_env_vars`. Aucun outil visible de type `link/connect/provision domain`.
+- Vérification Vercel API :
+  - Le projet `prj_K0lOtdj3KIvnaup6hmKjjxzgPyYu` existe et déploie correctement depuis GitHub (`CNCMartinique/Rankli-NanaCorp`).
+  - Les déploiements récents du 2026-04-15 sont tous `READY` en production.
+  - Le domaine `rankli.nanocorp.app` est bien ajouté au projet, mais `verified: false`.
+  - Vercel attend le TXT suivant : `_vercel.nanocorp.app = "vc-domain-verify=rankli.nanocorp.app,f6add25180041238056d"`.
+  - Un `POST /verify` renvoie `missing_txt_record`.
+- Vérification DNS publique :
+  - `rankli.nanocorp.app` résout actuellement vers `172.67.152.139` et `104.21.12.146` (Cloudflare).
+  - Aucun `CNAME` public pour `rankli.nanocorp.app`.
+  - Aucun `TXT` public pour `_vercel.nanocorp.app`.
+- Conclusion :
+  - Le blocage n'est pas un problème de build ou de redéploiement Vercel.
+  - Le blocage est côté NanoCorp/DNS : le domaine NanoCorp n'est pas provisionné/légué à ce projet Vercel, et le TXT de vérification requis par Vercel n'existe pas.
+  - Tant que NanoCorp n'ajoute pas le TXT `_vercel.nanocorp.app` demandé par Vercel et ne route pas `rankli.nanocorp.app` vers ce projet, `rankli.nanocorp.app` ne pourra pas servir le site live.
