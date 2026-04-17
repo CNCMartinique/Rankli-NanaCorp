@@ -63,6 +63,7 @@ export default function Home() {
           <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
             <a href="#comment" className="hover:text-gray-900">Comment ça marche</a>
             <a href="#tarifs" className="hover:text-gray-900">Tarifs</a>
+            <a href="/blog" className="hover:text-gray-900">Blog</a>
             <a href="#contact" className="hover:text-gray-900">Contact</a>
             <a href="/audit" className="hover:text-emerald-600 font-medium text-emerald-600">Audit Gratuit</a>
           </nav>
