@@ -64,3 +64,35 @@
   - Le blocage n'est pas un problème de build ou de redéploiement Vercel.
   - Le blocage est côté NanoCorp/DNS : le domaine NanoCorp n'est pas provisionné/légué à ce projet Vercel, et le TXT de vérification requis par Vercel n'existe pas.
   - Tant que NanoCorp n'ajoute pas le TXT `_vercel.nanocorp.app` demandé par Vercel et ne route pas `rankli.nanocorp.app` vers ce projet, `rankli.nanocorp.app` ne pourra pas servir le site live.
+
+## Investigation du 2026-04-17 (admin leads)
+- Structure App Router minimale :
+  - `src/app/api/audit-request/route.ts` gérait déjà l'insertion des leads.
+  - `src/app` ne contenait pas encore de route `/admin` ni de helper DB partagé.
+- Vérification base locale via `DATABASE_URL` :
+  - La relation `audit_leads` n'existait pas encore sur l'environnement courant au moment de l'exploration.
+  - Conséquence : la lecture admin doit être tolérante et créer la table si nécessaire, comme le POST existant.
+
+## Changements du 2026-04-17 (admin leads)
+- Ajout de `src/lib/audit-leads.ts` :
+  - centralise la connexion PostgreSQL via `pg`
+  - garantit `CREATE TABLE IF NOT EXISTS audit_leads`
+  - expose `createAuditLead()` et `getAuditLeads()` avec tri `created_at DESC`
+- `src/app/api/audit-request/route.ts` :
+  - réutilise désormais `createAuditLead()` au lieu d'embarquer le SQL inline
+- Ajout de `src/app/api/admin/leads/route.ts` :
+  - route `GET /api/admin/leads`
+  - renvoie `{ leads, total }` en JSON
+- Ajout de `src/app/admin/leads/page.tsx` :
+  - page admin serveur `/admin/leads`
+  - affiche le total de leads
+  - tableau simple avec Date, Nom entreprise, Email, Téléphone, URL Google Maps
+  - état vide si aucun lead
+  - rendu dynamique pour refléter les nouvelles soumissions
+
+## Vérification du 2026-04-17 (admin leads)
+- `npm install --no-package-lock` réussi.
+- `npm run build` réussi.
+- `npm start` puis contrôle HTTP local :
+  - `GET /api/admin/leads` renvoie `{"leads":[],"total":0}` sur l'environnement courant.
+  - `GET /admin/leads` sert bien la page admin avec compteur et état vide.
